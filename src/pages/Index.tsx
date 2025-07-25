@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import FileUpload from '@/components/FileUpload';
 import ProcessingStatus from '@/components/ProcessingStatus';
 import DetectionResults from '@/components/DetectionResults';
+import DetailedReport from '@/components/DetailedReport';
 import { Shield, Brain, Eye, Zap, CheckCircle, Users, Globe, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -150,6 +151,14 @@ const Index = () => {
     setProcessingStep(0);
     setOverallProgress(0);
     setSteps(processingSteps);
+    
+    // Scroll to upload section
+    setTimeout(() => {
+      const uploadSection = document.getElementById('upload-section');
+      if (uploadSection) {
+        uploadSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   };
 
   return (
@@ -194,7 +203,7 @@ const Index = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
           {/* Upload Section */}
-          <div className="space-y-6">
+          <div id="upload-section" className="space-y-6">
             <div className="text-center lg:text-left">
               <h2 className="text-3xl font-bold text-foreground mb-2">Upload Media for Analysis</h2>
               <p className="text-muted-foreground">
@@ -244,10 +253,16 @@ const Index = () => {
             )}
 
             {detectionResult && uploadedFile && (
-              <DetectionResults 
-                result={detectionResult}
-                fileName={uploadedFile.name}
-              />
+              <div className="space-y-6">
+                <DetectionResults 
+                  result={detectionResult}
+                  fileName={uploadedFile.name}
+                />
+                <DetailedReport 
+                  result={detectionResult}
+                  fileName={uploadedFile.name}
+                />
+              </div>
             )}
 
             {!isProcessing && !detectionResult && (
