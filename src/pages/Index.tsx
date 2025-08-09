@@ -5,9 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import FileUpload from '@/components/FileUpload';
 import ProcessingStatus from '@/components/ProcessingStatus';
 import DetectionResults from '@/components/DetectionResults';
-import DetailedReport from '@/components/DetailedReport';
-import DatasetManager from '@/components/DatasetManager';
-import ModelTraining from '@/components/ModelTraining';
 import { Shield, Brain, Eye, Zap, CheckCircle, Users, Globe, Lock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -153,14 +150,6 @@ const Index = () => {
     setProcessingStep(0);
     setOverallProgress(0);
     setSteps(processingSteps);
-    
-    // Scroll to upload section
-    setTimeout(() => {
-      const uploadSection = document.getElementById('upload-section');
-      if (uploadSection) {
-        uploadSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }, 100);
   };
 
   return (
@@ -205,7 +194,7 @@ const Index = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
           {/* Upload Section */}
-          <div id="upload-section" className="space-y-6">
+          <div className="space-y-6">
             <div className="text-center lg:text-left">
               <h2 className="text-3xl font-bold text-foreground mb-2">Upload Media for Analysis</h2>
               <p className="text-muted-foreground">
@@ -255,16 +244,10 @@ const Index = () => {
             )}
 
             {detectionResult && uploadedFile && (
-              <div className="space-y-6">
-                <DetectionResults 
-                  result={detectionResult}
-                  fileName={uploadedFile.name}
-                />
-                <DetailedReport 
-                  result={detectionResult}
-                  fileName={uploadedFile.name}
-                />
-              </div>
+              <DetectionResults 
+                result={detectionResult}
+                fileName={uploadedFile.name}
+              />
             )}
 
             {!isProcessing && !detectionResult && (
@@ -392,32 +375,6 @@ const Index = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
-      </div>
-
-      {/* Dataset Management Section */}
-      <div className="bg-secondary/10 py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Dataset & Training Management</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Manage training datasets, configure models, and monitor training progress based on the research methodology from FaceForensics++, DFDC, and Celeb-DF datasets.
-            </p>
-          </div>
-          <DatasetManager />
-        </div>
-      </div>
-
-      {/* Model Training Section */}
-      <div className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Model Training & Optimization</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Train and optimize deepfake detection models using the proposed hybrid CNN + Vision Transformer architecture with real-time monitoring.
-            </p>
-          </div>
-          <ModelTraining />
         </div>
       </div>
     </div>
